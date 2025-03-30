@@ -99,8 +99,8 @@ class WandbLogger(Logger):
 class SwanlabLogger(Logger):
     def __init__(self, config: Dict[str, Any]) -> None:
         swanlab_key = os.getenv("SWANLAB_API_KEY")
-        swanlab_dir = os.getenv("SWANLAB_DIR", "swanlab_log")
-        swanlab_mode = os.getenv("SWANLAB_MODE", "cloud")
+        swanlab_dir = os.getenv("SWANLAB_DIR", "/groups/xitucheng213/home/share/yzy/Vision-R1-Projects/Train_logs/MedMNIST")
+        swanlab_mode = os.getenv("SWANLAB_MODE", "local")
         if swanlab_key:
             swanlab.login(swanlab_key)
 

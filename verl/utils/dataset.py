@@ -20,7 +20,7 @@ from typing import Any, Dict, List, Optional, Union
 
 import numpy as np
 import torch
-from datasets import load_dataset
+from datasets import load_dataset, load_from_disk
 from PIL import Image
 from PIL.Image import Image as ImageObject
 from torch.utils.data import Dataset
@@ -85,6 +85,7 @@ class RLHFDataset(Dataset, ImageProcessMixin):
         data_path: str,
         tokenizer: PreTrainedTokenizer,
         processor: Optional[ProcessorMixin],
+        data_type: str = "parquet",
         prompt_key: str = "prompt",
         answer_key: str = "answer",
         image_key: str = "images",
@@ -111,9 +112,12 @@ class RLHFDataset(Dataset, ImageProcessMixin):
             data_split = "train"
 
         if os.path.isdir(data_path):
-            self.dataset = load_dataset("parquet", data_dir=data_path, split="train")
+            if data_type == "parquet":
+                self.dataset = load_dataset("parquet", data_dir=data_path, split=data_split)
+            else:
+                self.dataset = load_from_disk(os.path.join(data_path, data_split))
         elif os.path.isfile(data_path):
-            self.dataset = load_dataset("parquet", data_files=data_path, split="train")
+            self.dataset = load_dataset("parquet", data_files=data_path, split=data_split)
         else:  # remote dataset
             self.dataset = load_dataset(data_path, split=data_split)
 

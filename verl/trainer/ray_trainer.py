@@ -261,6 +261,7 @@ class RayPPOTrainer:
             data_path=self.config.data.train_files,
             tokenizer=self.tokenizer,
             processor=self.processor,
+            data_type=self.config.data.data_type,
             prompt_key=self.config.data.prompt_key,
             answer_key=self.config.data.answer_key,
             image_key=self.config.data.image_key,
@@ -292,6 +293,7 @@ class RayPPOTrainer:
             data_path=self.config.data.val_files,
             tokenizer=self.tokenizer,
             processor=self.processor,
+            data_type=self.config.data.data_type,
             prompt_key=self.config.data.prompt_key,
             answer_key=self.config.data.answer_key,
             image_key=self.config.data.image_key,
@@ -701,5 +703,5 @@ class RayPPOTrainer:
 
             print(f"Final validation metrics: {convert_dict_to_str(val_metrics)}")
 
-        if self.config.trainer.save_freq <= 0 or self.global_step % self.config.trainer.save_freq != 0:
-            self._save_checkpoint()
+        # if self.config.trainer.save_freq <= 0 or self.global_step % self.config.trainer.save_freq != 0:
+        #     self._save_checkpoint()
