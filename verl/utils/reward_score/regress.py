@@ -24,14 +24,14 @@ def math_format_reward(predict_str: str) -> float:
     return 1.0 if format_match else 0.0
 
 
-def math_acc_reward(predict_str: str, ground_truth: str) -> float:
+def regress_acc_reward(predict_str: str, ground_truth: str) -> float:
     answer = extract_boxed_content(predict_str)
-    if _str_is_int(answer) and 0 <= int(answer) <= 4:
+    if _str_is_int(answer) and 0 <= int(float(answer)) <= 4:
         if grade_answer(answer, ground_truth):
             return 1.0
-        elif abs(int(answer) - int(ground_truth)) == 1:
+        elif abs(int(float(answer)) - int(ground_truth)) == 1:
             return 0.25
-        elif abs(int(answer) - int(ground_truth)) == 2:
+        elif abs(int(float(answer)) - int(ground_truth)) == 2:
             return 0.0625
         else:
             return 0.0
@@ -40,7 +40,7 @@ def math_acc_reward(predict_str: str, ground_truth: str) -> float:
 
 def regress_compute_score(predict_str: str, ground_truth: str) -> Dict[str, float]:
     format = math_format_reward(predict_str)
-    accuracy = math_acc_reward(predict_str, ground_truth)
+    accuracy = regress_acc_reward(predict_str, ground_truth)
 
     if accuracy == 1.0:
         acc = 1.0
