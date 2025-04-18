@@ -8,8 +8,8 @@ SYSTEM_PROMPT="""You FIRST think about the reasoning process as an internal mono
 
 python3 -m verl.trainer.main \
     config=/groups/xitucheng213/home/share/yzy/Vision-R1-Projects/EasyR1/train_scripts/config.yaml \
-    data.train_files=/groups/xitucheng213/home/share/yzy/Vision-R1-Projects/Datasets/MedMNIST/converted/RetinaMNIST+cate+feature-20@train \
-    data.val_files=/groups/xitucheng213/home/share/yzy/Vision-R1-Projects/Datasets/MedMNIST/converted/RetinaMNIST+cate+feature-20@test \
+    data.train_files=/groups/xitucheng213/home/share/yzy/Vision-R1-Projects/Datasets/MedMNIST/converted/BloodMNIST+cate+feature-20@train \
+    data.val_files=/groups/xitucheng213/home/share/yzy/Vision-R1-Projects/Datasets/MedMNIST/converted/BloodMNIST+cate+feature-20@test \
     data.system_prompt="${SYSTEM_PROMPT}" \
     data.rollout_batch_size=32 \
     data.val_batch_size=-1 \
@@ -18,13 +18,13 @@ python3 -m verl.trainer.main \
     worker.actor.model.model_path=${MODEL_PATH} \
     worker.rollout.enable_chunked_prefill=false \
     worker.rollout.tensor_parallel_size=1 \
-    worker.reward.compute_score=regress \
-    trainer.experiment_name=qwen2_5_vl_7b_RetinaMNIST+cate+feature2-20 \
+    worker.reward.compute_score=math \
+    trainer.experiment_name=qwen2_5_vl_7b_BloodMNIST+cate+feature-20 \
     trainer.logger=['console','swanlab'] \
     trainer.n_gpus_per_node=2 \
     trainer.val_generations_to_log=10 \
-    trainer.total_episodes=40 \
+    trainer.total_episodes=24 \
     trainer.val_freq=5 \
     trainer.save_freq=30 \
     trainer.save_limit=2 \
-    trainer.save_checkpoint_path=/groups/xitucheng213/home/share/yzy/Vision-R1-Projects/EasyR1/checkpoints/MedMNIST/RetinaMNIST+cate+feature2-20
+    trainer.save_checkpoint_path=/groups/xitucheng213/home/share/yzy/Vision-R1-Projects/EasyR1/checkpoints/MedMNIST/BloodMNIST+cate+feature-20
