@@ -16,8 +16,8 @@
 from .math import math_compute_score
 from .r1v import r1v_compute_score
 from .regress import regress_compute_score
-from .math_nocot import math_nocot_compute_score
-from .regress_nocot import regress_nocot_compute_score
+from .math_FR import math_FR_compute_score
+from .regress_FR import regress_FR_compute_score
 
 
-__all__ = ["math_compute_score", "r1v_compute_score", "regress_compute_score", "math_nocot_compute_score", "regress_nocot_compute_score"]
+__all__ = ["math_compute_score", "r1v_compute_score", "regress_compute_score", "math_FR_compute_score", "regress_FR_compute_score"]
