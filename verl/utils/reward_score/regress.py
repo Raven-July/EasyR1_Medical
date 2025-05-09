@@ -47,6 +47,7 @@ def regress_compute_score(predict_str: str, ground_truth: str) -> Dict[str, floa
     else:
         acc = 0.0
     return {
+        # "overall": 0.7 * acc + 0.1 * format + 0.2 * accuracy,
         "overall": 0.9 * accuracy + 0.1 * format,
         "format": format,
         "accuracy": acc,
