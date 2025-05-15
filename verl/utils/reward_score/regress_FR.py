@@ -79,18 +79,25 @@ def regress_FR_compute_score(predict_str: str, ground_truth: str) -> Dict[str, f
     feature_reward = 0.0
     answer = extract_boxed_content(predict_str)
     
-    if answer in retina and acc == 1.0:
+    # if answer in retina and acc == 1.0:
+    #     # 提取<think>标签内的内容
+    #     think_match = re.search(r'<think>(.*?)</think>', predict_str, re.DOTALL)
+    #     think_content = think_match.group(1).strip() if think_match else ""
+    #     # 计算BLEU分数
+    #     feature_reward = compute_bleu(think_content, retina[answer])
+    #     # 截断
+    #     if feature_reward > 0.25:
+    #         feature_reward = 1
+    if answer in retina:
         # 提取<think>标签内的内容
         think_match = re.search(r'<think>(.*?)</think>', predict_str, re.DOTALL)
         think_content = think_match.group(1).strip() if think_match else ""
         # 计算BLEU分数
         feature_reward = compute_bleu(think_content, retina[answer])
-        # 截断
-        if feature_reward > 0.25:
-            feature_reward = 1
     
     return {
-        "overall": 0.7 * accuracy_reward + 0.1 * format_reward + 0.2 * feature_reward,
+        # "overall": 0.7 * accuracy_reward + 0.1 * format_reward + 0.2 * feature_reward,
+        "overall": 0.9 * accuracy_reward + 0.1 * format_reward - 2 * feature_reward, 
         "format": format_reward,
         "accuracy": acc,
         "feature": feature_reward

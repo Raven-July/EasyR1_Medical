@@ -17,7 +17,7 @@ python3 -m verl.trainer.main \
     worker.rollout.enable_chunked_prefill=false \
     worker.rollout.tensor_parallel_size=1 \
     worker.reward.compute_score=math \
-    trainer.experiment_name=qwen2_5_vl_7b_OrganCMNIST+cate+feature-256 \
+    trainer.experiment_name=qwen2_5_vl_3b_OrganCMNIST+cate+feature-256 \
     trainer.logger=['console','swanlab'] \
     trainer.n_gpus_per_node=2 \
     trainer.val_generations_to_log=10 \

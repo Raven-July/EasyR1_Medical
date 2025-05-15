@@ -3,12 +3,12 @@ from typing import Dict
 from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
 
 from mathruler.grader import extract_boxed_content, grade_answer
-import rouge
+from rouge import Rouge
 
-# pneumonia = {
-#     "normal": "Clear lung fields, symmetrical bilateral structures, absence of opacities, distinct vascular markings",
-#     "pneumonia": "Highlights infection-related abnormalities like opacities (fluid/inflammation), consolidation (dense lung tissue), and pleural involvement"
-# }
+pneumonia = {
+    "normal": "Clear lung fields, symmetrical bilateral structures, absence of opacities, distinct vascular markings",
+    "pneumonia": "Highlights infection-related abnormalities like opacities (fluid/inflammation), consolidation (dense lung tissue), and pleural involvement"
+}
 
 # blood = {"basophil": "Large dark purple cytoplasmic granules that often obscure the bilobed nucleus",
 #     "eosinophil": "Distinctive bright orange-red granules with a typically bilobed nucleus",
@@ -29,11 +29,11 @@ import rouge
 #     "vascular lesions": "Red-purple coloration; macular or papular morphology; blanchable; blood vessel proliferation patterns"
 #     }
 
-oct = {"choroidal neovascularization": "Abnormal blood vessel growth beneath retina, fluid accumulation, structural disruption",
-    "diabetic macular edema": "Retinal thickening with fluid-filled cysts, sponge-like appearance in macular region",
-    "drusen": "Yellowish lipid-protein deposits under retina, irregular retinal pigment epithelium",
-    "normal": "Distinct retinal layer stratification, uniform tissue texture, no pathological features"
-    }
+# oct = {"choroidal neovascularization": "Abnormal blood vessel growth beneath retina, fluid accumulation, structural disruption",
+#     "diabetic macular edema": "Retinal thickening with fluid-filled cysts, sponge-like appearance in macular region",
+#     "drusen": "Yellowish lipid-protein deposits under retina, irregular retinal pigment epithelium",
+#     "normal": "Distinct retinal layer stratification, uniform tissue texture, no pathological features"
+#     }
 
 # organa = {"bladder": "Rounded pelvic fluid-filled sac, central location, low-density homogeneous",
 #     "femur-left": "Dense cortical bone structure, left hip joint articulation, long axis orientation",
@@ -117,21 +117,28 @@ def math_FR_compute_score(predict_str: str, ground_truth: str) -> Dict[str, floa
     feature_reward = 0.0
     answer = extract_boxed_content(predict_str)
     
-    if answer in oct and accuracy_reward == 1.0:
+    # if answer in oct and accuracy_reward == 1.0:
+    #     # 提取<think>标签内的内容
+    #     think_match = re.search(r'<think>(.*?)</think>', predict_str, re.DOTALL)
+    #     think_content = think_match.group(1).strip() if think_match else ""
+    #     # 计算BLEU分数
+    #     feature_reward = compute_bleu(think_content, oct[answer])
+    #     # 截断
+    #     if feature_reward > 0.25:
+    #         feature_reward = 1
+    if answer in pneumonia:
         # 提取<think>标签内的内容
         think_match = re.search(r'<think>(.*?)</think>', predict_str, re.DOTALL)
         think_content = think_match.group(1).strip() if think_match else ""
         # 计算BLEU分数
-        feature_reward = compute_rouge_l(think_content, oct[answer])
+        feature_reward = compute_bleu(think_content, pneumonia[answer])
         # 截断
-        # if feature_reward > 0.25:
-        #     feature_reward = 1
-        if feature_reward < 0.25:
-            feature_reward = 0
+        # if feature_reward <= 0.1
+        #     feature_reward = 0
     # 改为惩罚试试
     return {
         # "overall": 0.7 * accuracy_reward + 0.1 * format_reward + 0.2 * feature_reward,
-        "overall": 0.9 * accuracy_reward + 0.1 * format_reward - 0.5 * feature_reward,
+        "overall": 0.9 * accuracy_reward + 0.1 * format_reward - 2 * feature_reward, 
         "format": format_reward,
         "accuracy": accuracy_reward,
         "feature": feature_reward

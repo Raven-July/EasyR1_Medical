@@ -8,8 +8,8 @@ SYSTEM_PROMPT="""You FIRST think about the reasoning process as an internal mono
 
 python3 -m verl.trainer.main \
     config=/groups/xitucheng213/home/share/yzy/Vision-R1-Projects/EasyR1/train_scripts/config.yaml \
-    data.train_files=/groups/xitucheng213/home/share/yzy/Vision-R1-Projects/Datasets/MedMNIST/converted/DermaMNIST+cate+feature-256@train \
-    data.val_files=/groups/xitucheng213/home/share/yzy/Vision-R1-Projects/Datasets/MedMNIST/converted/DermaMNIST+cate+feature-256@test \
+    data.train_files=/groups/xitucheng213/home/share/yzy/Vision-R1-Projects/Datasets/MedMNIST/converted/RetinaMNIST+cate+feature-256@train \
+    data.val_files=/groups/xitucheng213/home/share/yzy/Vision-R1-Projects/Datasets/MedMNIST/converted/RetinaMNIST+cate+feature-256@test \
     data.system_prompt="${SYSTEM_PROMPT}" \
     data.rollout_batch_size=256 \
     data.val_batch_size=-1 \
@@ -18,13 +18,13 @@ python3 -m verl.trainer.main \
     worker.actor.model.model_path=${MODEL_PATH} \
     worker.rollout.enable_chunked_prefill=false \
     worker.rollout.tensor_parallel_size=1 \
-    worker.reward.compute_score=math_FR \
-    trainer.experiment_name=qwen2_5_vl_7b_DermaMNIST+cate+featureR-256 \
+    worker.reward.compute_score=regress_FR \
+    trainer.experiment_name=qwen2_5_vl_3b_RetinaMNIST+cate+featureRP-256 \
     trainer.logger=['console','swanlab'] \
     trainer.n_gpus_per_node=2 \
     trainer.val_generations_to_log=10 \
-    trainer.total_episodes=24 \
+    trainer.total_episodes=30 \
     trainer.val_freq=5 \
     trainer.save_freq=30 \
     trainer.save_limit=2 \
-    trainer.save_checkpoint_path=/groups/xitucheng213/home/share/yzy/Vision-R1-Projects/EasyR1/checkpoints/MedMNIST/DermaMNIST+cate+featureR-256
+    trainer.save_checkpoint_path=/groups/xitucheng213/home/share/yzy/Vision-R1-Projects/EasyR1/checkpoints/MedMNIST/RetinaMNIST+cate+featureRP-256
